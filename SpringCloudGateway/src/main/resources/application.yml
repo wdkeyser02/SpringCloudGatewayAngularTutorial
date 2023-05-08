@@ -1,11 +1,26 @@
 server:
   port: 8090
   
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: INFO
+  
 spring:
   application:
     name: "cloudgateway"
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       routes:
         - id: route1
           uri: http://localhost:8091/
@@ -19,3 +34,7 @@ spring:
             - Path=/resource2/**
           filters:
             - SetPath=/resourceserver02/
+        - id: angular
+          uri: http://localhost:4200/
+          predicates:
+            - Path=/**
