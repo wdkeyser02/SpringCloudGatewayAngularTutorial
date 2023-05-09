@@ -1,15 +1,6 @@
 server:
   port: 8090
   
-logging:
-  level:
-    reactor:
-      netty: INFO
-    org:
-      springframework:
-        cloud:
-          gateway: INFO
-  
 spring:
   application:
     name: "cloudgateway"
