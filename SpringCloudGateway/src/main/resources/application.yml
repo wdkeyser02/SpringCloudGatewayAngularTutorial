@@ -3,15 +3,11 @@ server:
   
 spring:
   application:
-    name: "cloudgateway"
+    name: cloudgateway
   cloud:
     gateway:
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: "*"
-            allowedHeaders: "*"
+      default-filters:
+        - TokenRelay=
       routes:
         - id: route1
           uri: http://localhost:8091/
@@ -29,3 +25,17 @@ spring:
           uri: http://localhost:4200/
           predicates:
             - Path=/**
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            provider: spring
+            client-id: client
+            client-secret: secret
+            scope: openid, profile
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8090/login/oauth2/code/{registrationId}
+        provider:
+          spring:
+            issuer-uri: http://localhost:9000

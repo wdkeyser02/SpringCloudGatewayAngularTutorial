@@ -3,4 +3,9 @@ server:
 
 spring:
   application:
-    name: "resourceserver02"
+    name: resourceserver02
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000    
