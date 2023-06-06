@@ -1,6 +1,9 @@
 server:
   port: 8090
   
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
 spring:
   application:
     name: cloudgateway
@@ -10,17 +13,17 @@ spring:
         - TokenRelay=
       routes:
         - id: route1
-          uri: http://localhost:8091/
+          uri: http://localhost:8091
           predicates:
             - Path=/resource1/**
           filters:
-            - SetPath=/resourceserver01/  
+            - RewritePath=/resource1/?(?<segment>.*), /resourceserver01/$\{segment}
         - id: route2
           uri: http://localhost:8092/
           predicates:
             - Path=/resource2/**
           filters:
-            - SetPath=/resourceserver02/
+            - RewritePath=/resource2/?(?<segment>.*), /resourceserver02/$\{segment}
         - id: angular
           uri: http://localhost:4200/
           predicates:
